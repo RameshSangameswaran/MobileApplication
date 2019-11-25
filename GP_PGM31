@@ -1,0 +1,91 @@
+Android XML Code
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+        app:srcCompat="@drawable/ic_launcher" />
+</android.support.constraint.ConstraintLayout>
+
+
+
+Android Java Code
+
+package com.example.gp;
+import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.app.AppCompatActivity;
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.widget.ImageView;
+@SuppressLint("ClickableViewAccessibility")
+public class MainActivity extends AppCompatActivity implements OnTouchListener{
+    ImageView iv;
+    Bitmap b;
+    Canvas c;
+    Paint p;
+    float dx=0,dy=0,ux=0,uy=0;
+    @SuppressWarnings("deprecation")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        iv=(ImageView)this.findViewById(R.id.imageView);
+        Display d = getWindowManager().getDefaultDisplay();
+        float dw = d.getWidth();
+        float dh = d.getHeight();
+        b = Bitmap.createBitmap((int) dw, (int) dh,Bitmap.Config.ARGB_8888);
+        c = new Canvas(b);
+        p = new Paint();
+        p.setColor(Color.BLUE);
+        iv.setImageBitmap(b);
+        iv.setOnTouchListener(this);
+    }
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+// TODO Auto-generated method stub
+        int action = event.getAction();
+        switch (action)
+        {
+            case MotionEvent.ACTION_DOWN:
+                dx = event.getX();
+                dy = event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                ux = event.getX();
+                uy = event.getY();
+                c.drawLine(dx, dy, ux, uy, p);
+                iv.invalidate();
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+}
+

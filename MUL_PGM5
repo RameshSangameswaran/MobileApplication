@@ -1,0 +1,110 @@
+
+
+Android XML
+
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.229"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Image1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.289" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Image2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button"
+            app:layout_constraintVertical_bias="0.272" />
+        </android.support.constraint.ConstraintLayout>
+</ScrollView>
+
+
+
+
+Android Java
+
+package com.example.thread11;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+    ImageView img;
+    Button b1,b2;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        img=(ImageView) findViewById(R.id.imageView);
+        b1=(Button) findViewById(R.id.button);
+        b2=(Button) findViewById(R.id.button2);
+       b1.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               new Thread(new Runnable() {
+                   @Override
+                   public void run() {
+                       img.post(new Runnable() {
+                           @Override
+                           public void run() {
+                               img.setImageResource(R.drawable.nature1);
+                           }
+                       });
+                   }
+               }).start();
+           }
+       });
+       b2.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               new Thread(new Runnable() {
+                   @Override
+                   public void run() {
+                       img.post(new Runnable() {
+                           @Override
+                           public void run() {
+                               img.setImageResource(R.drawable.nature2);
+                           }
+                       });
+                   }
+               }).start();
+           }
+       });
+    }
+}
+
